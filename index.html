@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d1d1b">
+<title>Cảnh báo biển báo — Hà Nội</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <h1>Cảnh báo biển báo <span class="muted">· Hà Nội</span></h1>
+
+  <div class="seg" id="modeSeg">
+    <button data-v="gps" class="on">GPS thật</button>
+    <button data-v="sim">Mô phỏng trên bản đồ</button>
+  </div>
+  <div class="seg" id="vehSeg">
+    <button data-v="motorbike" class="on">Xe máy</button>
+    <button data-v="car">Ô tô</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><b id="speed">0</b><span>km/h</span></div>
+    <div class="stat"><div class="limit"><b id="limit">—</b></div><span>tối đa</span></div>
+  </div>
+  <div class="road" id="road">Chưa xác định đường</div>
+
+  <div class="banner" id="banner">Chưa chạy</div>
+
+  <button class="primary" id="startBtn">Bắt đầu</button>
+
+  <div id="simBox" class="box" hidden>
+    <p class="hint">Chạm lên bản đồ để vẽ tuyến (ít nhất 2 điểm), rồi bấm Bắt đầu. Mô phỏng dùng dữ liệu đã tải và giờ hiện tại.</p>
+    <label for="simSpeed">Tốc độ: <span id="simSpeedVal">30</span> km/h</label>
+    <input type="range" id="simSpeed" min="10" max="60" value="30">
+    <div class="row">
+      <button id="simUndo">Xoá điểm cuối</button>
+      <button id="simClear">Xoá tuyến</button>
+    </div>
+  </div>
+
+  <div id="map"></div>
+  <p class="status" id="mapNote"></p>
+
+  <button class="secondary" id="addBtn">+ Thêm biển ở vị trí này</button>
+
+  <h2>Đã cảnh báo</h2>
+  <ol class="log" id="log"><li class="muted">Chưa có.</li></ol>
+
+  <h2>Dữ liệu trên máy</h2>
+  <table class="counts" id="counts"></table>
+  <div class="row wrap">
+    <button id="dlCore">Tải nội thành Hà Nội</button>
+    <button id="dlHere">Tải quanh vị trí (3 km)</button>
+  </div>
+  <p class="status" id="dataStatus"></p>
+
+  <label for="token">Mapillary access token (miễn phí, tạo tại mapillary.com/dashboard/developers)</label>
+  <input id="token" type="password" placeholder="MLY|..." autocomplete="off">
+  <div class="row wrap">
+    <button id="dlMly">Tải biển Mapillary nội thành</button>
+  </div>
+
+  <h2>Biển của tôi</h2>
+  <div class="row wrap">
+    <button id="exportBtn">Xuất JSON</button>
+    <label class="filebtn">Nhập JSON<input type="file" id="importFile" accept="application/json,.json" hidden></label>
+    <button id="clearData" class="danger">Xoá dữ liệu đã tải</button>
+  </div>
+  <ul class="mine" id="mine"></ul>
+
+  <h2>Tuỳ chọn</h2>
+  <label class="check"><input type="checkbox" id="voice" checked> Đọc cảnh báo bằng giọng nói</label>
+  <p class="status" id="voiceNote"></p>
+
+  <p class="foot">Dữ liệu đường © OpenStreetMap contributors (ODbL). Biển báo nhận diện tự động từ Mapillary có thể sai. App chỉ hỗ trợ, người lái vẫn phải quan sát biển thật.</p>
+</main>
+
+<dialog id="addDlg">
+  <form method="dialog" id="addForm">
+    <h2>Biển ở vị trí này, theo hướng đang đi</h2>
+    <div id="codeList" class="codes"></div>
+    <div id="valueRow" hidden>
+      <label for="signValue">Tốc độ (km/h)</label>
+      <input id="signValue" type="number" inputmode="numeric" value="40" min="5" max="120">
+    </div>
+    <label class="check"><input type="checkbox" id="signPeak"> Chỉ giờ cao điểm (6–9h, 16–19h)</label>
+    <div class="row">
+      <button value="cancel" type="button" id="addCancel">Huỷ</button>
+      <button value="ok" class="primary inline" id="addSave">Lưu</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

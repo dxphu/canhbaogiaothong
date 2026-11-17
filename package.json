@@ -1,0 +1,1 @@
+{"name":"canhbao-web","type":"module","private":true,"scripts":{"test":"node --test test/*.test.js"}}
